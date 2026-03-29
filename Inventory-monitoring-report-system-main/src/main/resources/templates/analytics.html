@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Stock Analytics</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:'Segoe UI';
+        }
+
+        body{
+        height:100vh;
+        overflow:hidden;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        color:white;
+
+        /* moving gradient background */
+        background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1c92d2);
+        background-size:400% 400%;
+        animation:gradientMove 10s ease infinite;
+        }
+
+        @keyframes gradientMove{
+        0%{background-position:0% 50%;}
+        50%{background-position:100% 50%;}
+        100%{background-position:0% 50%;}
+        }
+
+        h1{
+        margin-bottom:20px;
+        font-size:28px;
+        text-shadow:0 0 10px #00f2fe;
+        }
+
+        .grid{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:15px;
+        width:95%;
+        max-width:1100px;
+        }
+
+        /* neon glass cards */
+        .card{
+        background:rgba(255,255,255,0.08);
+        padding:12px;
+        border-radius:12px;
+        backdrop-filter:blur(10px);
+        border:1px solid rgba(255,255,255,0.1);
+        transition:0.3s;
+        box-shadow:0 0 10px rgba(0,242,254,0.3);
+        }
+
+        .card:hover{
+        transform:scale(1.05);
+        box-shadow:0 0 20px #00f2fe,0 0 40px #00f2fe;
+        }
+
+        .card h3{
+        font-size:14px;
+        text-align:center;
+        margin-bottom:5px;
+        }
+
+        canvas{
+        background:white;
+        border-radius:8px;
+        height:130px !important;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>📊 Stock Analytics Dashboard</h1>
+
+<div class="grid">
+
+    <div class="card">
+        <h3>Products by Category</h3>
+        <canvas id="chart1"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Stock Movement</h3>
+        <canvas id="chart2"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Inventory Value</h3>
+        <canvas id="chart3"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Low Stock Trend</h3>
+        <canvas id="chart4"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Category Distribution</h3>
+        <canvas id="chart5"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Monthly Sales</h3>
+        <canvas id="chart6"></canvas>
+    </div>
+
+</div>
+
+<script>
+
+    const animationSettings = {
+    responsive:true,
+    maintainAspectRatio:false,
+    animation:{
+    duration:2000,
+    easing:'easeInOutQuart'
+    }
+    }
+
+    new Chart(document.getElementById("chart1"),{
+    type:"bar",
+    data:{
+    labels:["Electronics","Furniture","Accessories"],
+    datasets:[{
+    data:[10,6,12],
+    backgroundColor:["#4facfe","#00f2fe","#43e97b"]
+    }]
+    },
+    options:animationSettings
+    })
+
+    new Chart(document.getElementById("chart2"),{
+    type:"line",
+    data:{
+    labels:["Jan","Feb","Mar","Apr"],
+    datasets:[{
+    data:[30,50,40,60],
+    borderColor:"#00f2fe",
+    tension:0.4,
+    fill:true,
+    backgroundColor:"rgba(0,242,254,0.2)"
+    }]
+    },
+    options:animationSettings
+    })
+
+    new Chart(document.getElementById("chart3"),{
+    type:"pie",
+    data:{
+    labels:["Laptop","Monitor","Chair"],
+    datasets:[{
+    data:[40,25,35],
+    backgroundColor:["#ff9966","#00f2fe","#43e97b"]
+    }]
+    },
+    options:{
+    ...animationSettings,
+    animation:{animateRotate:true,duration:2000}
+    }
+    })
+
+    new Chart(document.getElementById("chart4"),{
+    type:"line",
+    data:{
+    labels:["Week1","Week2","Week3"],
+    datasets:[{
+    data:[5,3,4],
+    borderColor:"#ff4d4d",
+    tension:0.5
+    }]
+    },
+    options:animationSettings
+    })
+
+    new Chart(document.getElementById("chart5"),{
+    type:"doughnut",
+    data:{
+    labels:["Electronics","Furniture","Accessories"],
+    datasets:[{
+    data:[50,30,20],
+    backgroundColor:["#00f2fe","#43e97b","#fa709a"]
+    }]
+    },
+    options:{
+    ...animationSettings,
+    animation:{animateRotate:true,duration:2000}
+    }
+    })
+
+    new Chart(document.getElementById("chart6"),{
+    type:"bar",
+    data:{
+    labels:["Jan","Feb","Mar"],
+    datasets:[{
+    data:[200,400,300],
+    backgroundColor:"#00f2fe"
+    }]
+    },
+    options:animationSettings
+    })
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Dashboard Settings</title>
+
+    <style>
+
+        body{
+        font-family:Segoe UI;
+        background:#0f2027;
+        color:white;
+        padding:40px;
+        display:flex;
+        justify-content:center;
+        }
+
+        .settings-container{
+        width:600px;
+        background:rgba(255,255,255,0.08);
+        padding:30px;
+        border-radius:15px;
+        backdrop-filter:blur(10px);
+        box-shadow:0 0 25px rgba(79,172,254,0.5);
+        }
+
+        h2{
+        margin-bottom:25px;
+        }
+
+        .setting{
+        margin-bottom:25px;
+        }
+
+        label{
+        display:block;
+        margin-bottom:8px;
+        }
+
+        select,input[type="checkbox"]{
+        padding:8px;
+        border-radius:5px;
+        border:none;
+        }
+
+        .theme-buttons button{
+        margin:5px;
+        padding:10px 15px;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        color:white;
+        }
+
+        .blue{background:#4facfe;}
+        .pink{background:#ff4fa3;}
+        .purple{background:#9b59ff;}
+
+        .save-btn{
+        margin-top:20px;
+        padding:10px 20px;
+        border:none;
+        border-radius:8px;
+        background:#4facfe;
+        color:white;
+        cursor:pointer;
+        }
+
+        .save-btn:hover{
+        transform:scale(1.05);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="settings-container">
+
+    <h2>⚙ Dashboard Settings</h2>
+
+    <div class="setting">
+
+        <label>🎨 Theme Color</label>
+
+        <div class="theme-buttons">
+            <button class="blue" onclick="setTheme('blue')">Blue</button>
+            <button class="pink" onclick="setTheme('pink')">Pink</button>
+            <button class="purple" onclick="setTheme('purple')">Purple</button>
+        </div>
+
+    </div>
+
+
+    <div class="setting">
+
+        <label>🌙 Dark Mode</label>
+        <input type="checkbox" id="darkToggle" onchange="toggleDark()">
+
+    </div>
+
+
+    <div class="setting">
+
+        <label>📊 Show Dashboard Charts</label>
+        <input type="checkbox" id="chartToggle" checked>
+
+    </div>
+
+
+    <div class="setting">
+
+        <label>🔔 Enable Notifications</label>
+        <input type="checkbox" id="notifyToggle" checked>
+
+    </div>
+
+
+    <button class="save-btn" onclick="saveSettings()">💾 Save Preferences</button>
+
+</div>
+
+
+<script>
+
+    function setTheme(color){
+
+    document.body.style.background=
+
+    color==="blue" ? "#0f2027" :
+    color==="pink" ? "#2b0f20" :
+    "#1b0f2b";
+
+    localStorage.setItem("theme",color);
+
+    }
+
+    function toggleDark(){
+
+    if(document.getElementById("darkToggle").checked){
+    document.body.style.background="#000";
+    }else{
+    document.body.style.background="#0f2027";
+    }
+
+    }
+
+    function saveSettings(){
+
+    let charts=document.getElementById("chartToggle").checked;
+    let notify=document.getElementById("notifyToggle").checked;
+
+    localStorage.setItem("charts",charts);
+    localStorage.setItem("notify",notify);
+
+    alert("Settings saved successfully!");
+
+    }
+
+</script>
+
+</body>
+
+</html>

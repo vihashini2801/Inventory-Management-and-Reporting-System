@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Low Stock Products</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+
+        body{
+        background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+        font-family:'Segoe UI',sans-serif;
+        min-height:100vh;
+        }
+
+        .card-box{
+        background:white;
+        border-radius:15px;
+        padding:25px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2{
+        font-weight:700;
+        color:#dc3545;
+        }
+
+        .table thead{
+        background:#343a40;
+        color:white;
+        }
+
+        .table tbody tr{
+        transition:0.3s;
+        }
+
+        .table tbody tr:hover{
+        transform:scale(1.02);
+        background:#f8f9fa;
+        }
+
+        .stock-red{
+        background:#dc3545;
+        color:white;
+        padding:5px 10px;
+        border-radius:20px;
+        }
+
+        .stock-yellow{
+        background:#ffc107;
+        padding:5px 10px;
+        border-radius:20px;
+        }
+
+        .stock-green{
+        background:#198754;
+        color:white;
+        padding:5px 10px;
+        border-radius:20px;
+        }
+
+        .btn-back{
+        border-radius:25px;
+        transition:0.3s;
+        }
+
+        .btn-back:hover{
+        transform:scale(1.05);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container mt-5 animate__animated animate__fadeIn">
+
+    <div class="card-box">
+
+        <h2 class="mb-4">
+            <i class="fa-solid fa-box-open"></i> Low Stock Products
+        </h2>
+
+        <!-- Search Bar -->
+
+        <input class="form-control mb-3" id="searchInput" type="text" placeholder="🔍 Search product...">
+
+        <table class="table table-bordered table-hover">
+
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Stock Level</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+
+            <tbody id="productTable">
+
+            <tr th:each="p : ${products}" th:data-qty="${p.quantity}">
+
+                <td th:text="${p.name}"></td>
+
+                <td th:text="${p.quantity}"></td>
+
+                <!-- Progress Bar -->
+
+                <td style="width:200px">
+
+                    <div class="progress">
+
+                        <div class="progress-bar"
+
+                             th:style="'width:' + ${p.quantity * 10} + '%'"
+
+                             th:classappend="${p.quantity < 5} ? 'bg-danger' : (${p.quantity < 10} ? 'bg-warning' : 'bg-success')">
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <!-- Status Indicator -->
+
+                <td>
+
+<span th:if="${p.quantity < 5}" class="stock-red">
+Critical
+</span>
+
+                    <span th:if="${p.quantity >=5 and p.quantity <10}" class="stock-yellow">
+Low
+</span>
+
+                    <span th:if="${p.quantity >=10}" class="stock-green">
+Safe
+</span>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="text-end">
+
+            <a href="/dashboard" class="btn btn-dark btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Low Stock Popup -->
+
+<script>
+
+    document.querySelectorAll("tr[data-qty]").forEach(row => {
+
+    let qty = row.getAttribute("data-qty");
+
+    if(qty < 5){
+    alert("⚠ Warning! A product has very low stock (less than 5)");
+    }
+
+    });
+
+
+    // Search Function
+
+    document.getElementById("searchInput").addEventListener("keyup", function() {
+
+    let value = this.value.toLowerCase();
+
+    document.querySelectorAll("#productTable tr").forEach(row => {
+
+    row.style.display = row.innerText.toLowerCase().includes(value) ? "" : "none";
+
+    });
+
+    });
+
+</script>
+
+</body>
+</html>
